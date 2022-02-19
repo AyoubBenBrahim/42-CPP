@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   contact.cpp                                        :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aybouras <aybouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/19 13:36:22 by aybouras          #+#    #+#             */
-/*   Updated: 2022/02/19 13:36:32 by aybouras         ###   ########.fr       */
+/*   Created: 2022/02/19 13:36:55 by aybouras          #+#    #+#             */
+/*   Updated: 2022/02/19 13:36:58 by aybouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "contact.hpp"
-#include "phone_book.hpp"
+#include "Phone_book.hpp"
 
-Contact::Contact(){};
+int main()
+{
+    PhoneBook ph;
+    ph.getCommand();
 
-Contact::~Contact(){};
-
+    return (0);
+}

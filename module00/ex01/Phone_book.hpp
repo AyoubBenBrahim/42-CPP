@@ -15,7 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include "contact.hpp"
+#include "Contact.hpp"
 
 enum Commands
 {
@@ -29,7 +29,6 @@ class PhoneBook
     public:
 
         Contact     contacts[8];
-        Contact     *conta;
         Commands    choosenCommand;
         int         size;
         int         oldest;
@@ -37,14 +36,15 @@ class PhoneBook
         PhoneBook();
         ~PhoneBook();
 
-        void drawColumn(std::string title);
-        void exitProgram(void);
-        void getCommand(void);
+        void    drawColumn(std::string title);
+        void    exitProgram(void);
+        void    getCommand(void);
 
-        void newContact(void);
-        void pushContact(Contact tab[], Contact c);
-        void searchContact(void);
-        void stringManagment(std::string str);
+        void    newContact(void);
+        void    pushContact(Contact tab[], Contact c);
+        void    searchContact(void);
+        void    stringManagment(std::string str);
+        void    ctrlDSignalCheck(void);
 };
 
 #endif

@@ -10,23 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "contact.hpp"
-#include "phone_book.hpp"
+#include "Phone_book.hpp"
 
 PhoneBook::PhoneBook()
 {
     this->size = 0;
     this->oldest = 0;
+    choosenCommand = EXIT;
 }
 
-PhoneBook::~PhoneBook()
-{
+PhoneBook::~PhoneBook(){
 
 };
 
 void PhoneBook::newContact()
 {
     Contact c;
+
     std::cout << "  First Name: ";
     std::getline(std::cin >> std::ws, c.first_name);
     std::cout << "   Last Name: ";
@@ -37,6 +37,8 @@ void PhoneBook::newContact()
     std::getline(std::cin >> std::ws, c.phone_number);
     std::cout << "   Darkest Secret: ";
     std::getline(std::cin >> std::ws, c.secret);
+
+    PhoneBook::ctrlDSignalCheck();
 
     this->pushContact(this->contacts, c);
 }
@@ -89,12 +91,15 @@ void PhoneBook::searchContact()
     std::string string_input;
     std::cout << "\nChoose a Contact: ";
     std::getline(std::cin, string_input);
+    PhoneBook::ctrlDSignalCheck();
+
     std::cout << "\n";
 
     while (string_input.length() != 1 || !isdigit(string_input[0]) || (string_input[0] - 48) <= 0 || (string_input[0] - 48) > this->size)
     {
         std::cout << "Wrong Input Try again {1..." << this->size << "}: ";
         std::getline(std::cin, string_input);
+        PhoneBook::ctrlDSignalCheck();
     }
     std::cout << "\n";
 
@@ -126,6 +131,12 @@ void PhoneBook::drawColumn(std::string title)
     std::cout << std::right << std::setw(10) << title << "|";
 }
 
+void PhoneBook::ctrlDSignalCheck()
+{
+    if (std::cin.eof())
+        PhoneBook::exitProgram();
+}
+
 void PhoneBook::exitProgram()
 {
     std::cout << "\n **** EXIT PhoneBook **** \n\n";
@@ -139,7 +150,7 @@ void PhoneBook::getCommand()
     int attempts = 1;
     std::cout << "\nType a Command: ";
     std::getline(std::cin >> std::ws, input);
-
+    PhoneBook::ctrlDSignalCheck();
     while (attempts <= 5)
     {
         if (input.compare("ADD") == 0)
@@ -161,6 +172,7 @@ void PhoneBook::getCommand()
         {
             std::cout << "\nValide Commands are: ADD | SEARCH | EXIT: ";
             std::getline(std::cin >> std::ws, input);
+            PhoneBook::ctrlDSignalCheck();
             attempts++;
             continue;
         }
