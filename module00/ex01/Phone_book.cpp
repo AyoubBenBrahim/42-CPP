@@ -6,7 +6,7 @@
 /*   By: aybouras <aybouras@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/19 13:37:06 by aybouras          #+#    #+#             */
-/*   Updated: 2022/02/19 13:37:08 by aybouras         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:18:48 by aybouras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ PhoneBook::PhoneBook()
     choosenCommand = EXIT;
 }
 
-PhoneBook::~PhoneBook(){
-
-};
+PhoneBook::~PhoneBook()
+{};
 
 void PhoneBook::newContact()
 {
