@@ -38,6 +38,8 @@ bool BitcoinExchange::isValidDate(std::string &dateStr)
 
     if (month < 1 || month > 12 || day < 1 || day > 31)
         return false;
+    if (month == 2 && day > 29)
+        return false;
 
     return true;
 }
@@ -59,8 +61,6 @@ double BitcoinExchange::toDouble(std::string str, bool Flag)
 
         str = prefix + suffix;
     }
-    // else
-    //     str = str + ".0";
 
     std::stringstream ss(str);
     ss >> std::fixed >> std::setprecision(2) >> btcValue;
@@ -102,7 +102,6 @@ void BitcoinExchange::parseFile(std::string fileName, char delimiter, std::map<s
         {
             if (isValidDate(date))
             {
-
                 if ((btcValue = toDouble(value, false)) < 0)
                     continue;
                 if (fileName == "data.csv")
@@ -117,19 +116,7 @@ void BitcoinExchange::parseFile(std::string fileName, char delimiter, std::map<s
 
                     if (it != database.begin())
                         it--;
-                    std::cout << date << " 2=> " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
-                    // if (it == database.begin())
-                    //     std::cout << date << " 2=> " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
-                    // else
-                    // {
-                    //     std::map<std::string, double>::iterator prev = it;
-                    //     --prev;
-                    //     if (it == database.end() || (targetKey.compare(prev->first) - targetKey.compare(it->first)) > 0)
-                    //         std::cout << date << " 3=> " << std::setw(4) << btcValue << " = " << btcValue * prev->second << std::endl;
-
-                    //     else
-                    //         std::cout << date << " 4=> " << std::setw(4) << btcValue << " = " << btcValue * prev->second << std::endl;
-                    // }
+                    std::cout << date << " => " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
                 }
             }
             else
