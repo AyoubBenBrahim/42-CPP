@@ -1,0 +1,142 @@
+#include "BitcoinExchange.hpp"
+
+BitcoinExchange::BitcoinExchange(){}
+
+BitcoinExchange::BitcoinExchange(BitcoinExchange const &copy)
+{
+    *this = copy;
+}
+
+BitcoinExchange::~BitcoinExchange(void){}
+
+BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
+{
+    if (this == &rhs)
+        return *this;
+
+    return *this;
+}
+
+bool BitcoinExchange::isValidDate(std::string &dateStr)
+{
+    int year, month, day;
+    int len = dateStr.length();
+
+    if (dateStr[10] == ' ') len--;
+    if (len != 10) return false;
+
+    if (dateStr[4] != '-' || dateStr[7] != '-') return false;
+
+    for (int i = 0; i < 10; i++)
+    {
+        if (i == 4 || i == 7) continue;
+        if (!isdigit(dateStr[i])) return false;
+    }
+
+ if (sscanf(dateStr.c_str(), "%4d-%2d-%2d", &year, &month, &day) != 3)
+        return false;
+
+    if (month < 1 || month > 12 || day < 1 || day > 31)
+        return false;
+
+    return true;
+}
+
+double BitcoinExchange::toDouble(std::string str, bool Flag)
+{
+    double btcValue;
+
+    size_t decimal_pos = str.find('.');
+
+    if (decimal_pos != std::string::npos)
+    {
+        std::string prefix = str.substr(0, decimal_pos + 1);
+
+        std::string suffix = str.substr(decimal_pos + 1);
+
+        if (suffix.size() > 2)
+            suffix = suffix.substr(0, 2);
+
+        str = prefix + suffix;
+    }
+    // else
+    //     str = str + ".0";
+
+    std::stringstream ss(str);
+    ss >> std::fixed >> std::setprecision(2) >> btcValue;
+
+    if (Flag == true)
+    {
+        if (btcValue > MAX_BTC_VALUE)
+        {
+            std::cerr << "Error: too large number. '" << std::fixed << std::setprecision(0) << btcValue << "'." << std::endl;
+            return -1;
+        }
+    }
+    if (btcValue < MIN_BTC_VALUE)
+    {
+        std::cerr << "Error: not a positive number. '" << btcValue << "'." << std::endl;
+        return -1;
+    }
+    return btcValue;
+}
+
+void BitcoinExchange::parseFile(std::string fileName, char delimiter, std::map<std::string, double> &database)
+{
+    std::ifstream inputStream(fileName);
+    if (!inputStream)
+    {
+        std::cerr << "Error : opening input file." << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::getline(inputStream, line);
+    while (std::getline(inputStream, line))
+    {
+        std::istringstream iss(line);
+        std::string date, value;
+        double btcValue;
+
+        if (std::getline(iss, date, delimiter) && std::getline(iss, value))
+        {
+            if (isValidDate(date))
+            {
+
+                if ((btcValue = toDouble(value, false)) < 0)
+                    continue;
+                if (fileName == "data.csv")
+                    database.insert(make_pair(date, btcValue));
+                else
+                {
+                    if ((btcValue = toDouble(value, true)) < 0)
+                        continue;
+
+                    std::string targetKey = date;
+                    std::map<std::string, double>::iterator it = database.lower_bound(targetKey);
+
+                    if (it != database.begin())
+                        it--;
+                    std::cout << date << " 2=> " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
+                    // if (it == database.begin())
+                    //     std::cout << date << " 2=> " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
+                    // else
+                    // {
+                    //     std::map<std::string, double>::iterator prev = it;
+                    //     --prev;
+                    //     if (it == database.end() || (targetKey.compare(prev->first) - targetKey.compare(it->first)) > 0)
+                    //         std::cout << date << " 3=> " << std::setw(4) << btcValue << " = " << btcValue * prev->second << std::endl;
+
+                    //     else
+                    //         std::cout << date << " 4=> " << std::setw(4) << btcValue << " = " << btcValue * prev->second << std::endl;
+                    // }
+                }
+            }
+            else
+                std::cerr << "Error: Invalid date format '" << line << "'." << std::endl;
+        }
+        else
+            std::cerr << "Error: Invalid input format '" << line << "'." << std::endl;
+    }
+    inputStream.close();
+}
