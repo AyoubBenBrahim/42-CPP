@@ -1,11 +1,18 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(){}
-
-BitcoinExchange::BitcoinExchange(BitcoinExchange const &copy)
+BitcoinExchange::BitcoinExchange(std::string const& _database, std::string const& _file)
+: database(_database), inputFile(_file)
 {
-    *this = copy;
+    parsingFactory(database, ',');
+    parsingFactory(inputFile, '|');
 }
+
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& copy)
+        : database(copy.database), inputFile(copy.inputFile), databaseMap(copy.databaseMap)
+{
+}
+
 
 BitcoinExchange::~BitcoinExchange(void){}
 
@@ -13,6 +20,10 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
 {
     if (this == &rhs)
         return *this;
+
+    inputFile = rhs.getInputFile();
+    database = rhs.getDatabase();
+    databaseMap = rhs.getDatabaseMap();
 
     return *this;
 }
@@ -81,7 +92,7 @@ double BitcoinExchange::toDouble(std::string str, bool Flag)
     return btcValue;
 }
 
-void BitcoinExchange::parseFile(std::string fileName, char delimiter, std::map<std::string, double> &database)
+void BitcoinExchange::parsingFactory(std::string fileName, char delimiter)
 {
     std::ifstream inputStream(fileName);
     if (!inputStream)
@@ -104,17 +115,17 @@ void BitcoinExchange::parseFile(std::string fileName, char delimiter, std::map<s
             {
                 if ((btcValue = toDouble(value, false)) < 0)
                     continue;
-                if (fileName == "data.csv")
-                    database.insert(make_pair(date, btcValue));
+                if (fileName == this->database)
+                    this->databaseMap.insert(make_pair(date, btcValue));
                 else
                 {
                     if ((btcValue = toDouble(value, true)) < 0)
                         continue;
 
                     std::string targetKey = date;
-                    std::map<std::string, double>::iterator it = database.lower_bound(targetKey);
+                    std::map<std::string, double>::iterator it = this->databaseMap.lower_bound(targetKey);
 
-                    if (it != database.begin())
+                    if (it != this->databaseMap.begin())
                         it--;
                     std::cout << date << " => " << std::setw(4) << btcValue << " = " << btcValue * it->second << std::endl;
                 }

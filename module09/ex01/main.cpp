@@ -9,10 +9,10 @@ int main(int argc, char *argv[])
     }
 
     std::string expr = argv[1];
-    RPN rpnCalc;
-    double res = rpnCalc.evaluateRPN(expr);
+    
+    RPN rpnCalc(expr);
 
-    std::cout << std::setprecision(4) << res << std::endl;
+    std::cout << std::setprecision(4) << rpnCalc.getResult() << std::endl;
 
     return 0;
 }

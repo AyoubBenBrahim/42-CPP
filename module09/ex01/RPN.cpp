@@ -2,18 +2,32 @@
 
 RPN::RPN(){}
 
+RPN::RPN(std::string const &_exp) : exp(_exp)
+{
+    this->resultOperation = evaluateRPN();
+}
+
 RPN::RPN(RPN const &copy)
 {
     *this = copy;
 }
 
+RPN::RPN(RPN const &copy) : exp(copy.exp), resultOperation(copy.resultOperation) {}
+
+
 RPN::~RPN(void){}
+
+std::string RPN::getExp() const {return this->exp;}
+double RPN::getResult() const {return this->resultOperation;}
+void RPN::setExp(std::string _exp){this->exp = _exp;}
 
 RPN &RPN::operator=(RPN const &rhs)
 {
     if (this == &rhs)
         return *this;
 
+    this->resultOperation = rhs.resultOperation;
+    this->setExp(rhs.getExp());
     return *this;
 }
 
@@ -26,7 +40,8 @@ double RPN::performOperation(double op1, double op2, std::string _operator)
 {
     double res;
 
-    switch (_operator[0]) {
+    switch (_operator[0]) 
+    {
         case '+': res = op1 + op2; break;
         case '-': res = op1 - op2; break;
         case '*': res = op1 * op2; break;
@@ -47,12 +62,11 @@ double RPN::performOperation(double op1, double op2, std::string _operator)
     return res;
 }
 
-
-double RPN::evaluateRPN(std::string expr) 
+double RPN::evaluateRPN() 
 {
     std::stack<double> stak;
 
-    std::istringstream iss(expr);
+    std::istringstream iss(getExp());
     std::string token;
     while (iss >> token) 
     {
@@ -62,7 +76,7 @@ double RPN::evaluateRPN(std::string expr)
         {
             if (stak.size() < 2) 
             {
-                std::cerr << "Format Error: " << expr << std::endl;
+                std::cerr << "Format Error: " << getExp() << std::endl;
                 exit(1);
             }
             double op2 = stak.top();
@@ -73,13 +87,13 @@ double RPN::evaluateRPN(std::string expr)
             stak.push(res);
         }
         else {
-            std::cerr << "Format Error: " << expr << std::endl;
+            std::cerr << "Format Error: " << getExp() << std::endl;
             exit(1);
         }
     }
 
     if (stak.size() != 1) {
-        std::cerr << "Format Error: " << expr << std::endl;
+        std::cerr << "Format Error: " << getExp() << std::endl;
         exit(1);
     }
 
