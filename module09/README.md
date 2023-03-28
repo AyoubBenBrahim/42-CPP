@@ -37,12 +37,14 @@ mov move add
 Insertion sort is efficient for small arrays, while merge sort is efficient for larger arrays. 
 
  u can think of deque as a circular buffer/array
+ 
  ![img1](img/circular.png)
+ 
  https://www.quora.com/What-is-a-possible-implementation-for-std-deque
 
 A deque stores its elements in multiple chunks of contiguous memory, usually in a structure that consists of a series of fixed-size arrays. Each array, called a "block," contains a certain number of elements, and the blocks are linked together to form the deque. When elements are added or removed from the front or back of the deque, the blocks may need to be rearranged to maintain the contiguous storage and efficient access times. This is different from a vector, which stores its elements in a single contiguous block of memory.
 
- ![My Image](img/block1.png)
+ ![img2](img/block1.png)
 
 The fact that the elements are stored in multiple chunks of contiguous memory allows for better memory allocation and usage. Additionally, because the elements are not stored in a single contiguous block, the deque can grow dynamically without having to move all the existing elements to a new memory location.
 
