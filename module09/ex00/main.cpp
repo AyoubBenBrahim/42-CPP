@@ -6,14 +6,20 @@
 
 int main(int ac, char **av)
 {
-    if (ac != 2)
+    try
     {
-        std::cerr << "Error: invalid number of arguments." << std::endl;
-        return 1;
+        if (ac != 2)
+        {
+            throw std::string("Error: invalid number of arguments.");
+            return 1;
+        }
+
+        BitcoinExchange btc(database, av[1]);
     }
-
-    BitcoinExchange btc(database, av[1]);
-
+    catch(std::string err)
+    {
+        std::cout << err << '\n';
+    }
     return 0;
 }
 

@@ -12,37 +12,37 @@
 #include <vector>
 #include <deque>
 #include <ctime>
+#include <algorithm>
 
 const int THRESHOLD = 16;
 
 class PmergeMe
 {
 private:
-char** argv;
-int argc;
-std::vector<long> veq_sequence;
-std::deque<long> deq_sequence;
-	
+	char **argv;
+	int argc;
+	std::vector<long> veq_sequence;
+	std::deque<long> deq_sequence;
 
 public:
 	PmergeMe(void);
-	PmergeMe(char* argv[], int argc);
-	PmergeMe(std::string const &exp);
+	PmergeMe(char *argv[], int argc);
 	PmergeMe(PmergeMe const &copy);
 	PmergeMe &operator=(const PmergeMe &rhs);
 	~PmergeMe(void);
 
-// void mergeSort(std::vector<int>& array);
-// void insertionSort(std::vector<long>& array);
-template <typename T> void insertionSort(T& container);
-template <typename T> void mergeInsertionSort(T& container);
-template<typename T> void printContainer(const T& container, std::string prefixMsg);
-// void mergeInsertionSort(std::vector<long>& array);
-bool is_integer(const std::string& str);
-void PmergeHandler(char* argv[], int argc);
-void sortVector();
-void sortDequeu();
-
+	template <typename T>
+	void	insertionSort(T &container);
+	template <typename T>
+	void	mergeInsertionSort(T &container);
+	template <typename T>
+	void	printContainer(const T &container, std::string prefixMsg);
+	bool	is_integer(const std::string &str);
+	void	PmergeHandler(char *argv[], int argc);
+	double	sortVector();
+	double	sortDequeu();
+	template <typename T>
+	void	printTimeComplexity(const T &container, std::string container_name, double elapsed_time);
 };
 
 #endif

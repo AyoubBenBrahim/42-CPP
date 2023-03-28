@@ -4,6 +4,8 @@ BitcoinExchange::BitcoinExchange(std::string const& _database, std::string const
 : database(_database), inputFile(_file)
 {
     parsingFactory(database, ',');
+    if (this->databaseMap.size() == 0)
+        throw std::string("Error: Empty database.");
     parsingFactory(inputFile, '|');
 }
 
@@ -96,15 +98,14 @@ void BitcoinExchange::parsingFactory(std::string fileName, char delimiter)
 {
     std::ifstream inputStream(fileName);
     if (!inputStream)
-    {
-        std::cerr << "Error : opening input file." << std::endl;
-        return;
-    }
+        throw std::string("Error: while opening input file.");
 
     std::string line;
     std::getline(inputStream, line);
+    int count = 0;
     while (std::getline(inputStream, line))
     {
+        count++;
         std::istringstream iss(line);
         std::string date, value;
         double btcValue;
@@ -135,6 +136,11 @@ void BitcoinExchange::parsingFactory(std::string fileName, char delimiter)
         }
         else
             std::cerr << "Error: Invalid input format '" << line << "'." << std::endl;
+    }
+    if (count == 0)
+    {
+        inputStream.close();
+        throw std::string("Error: empty file.");
     }
     inputStream.close();
 }
