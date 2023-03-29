@@ -147,7 +147,7 @@ In general, std::vector is typically faster than std::deque for accessing elemen
 
 ==
 
-## memory allocation and cache locality.
+### memory allocation and cache locality.
 
 
 Arrays have better cache locality that can make a pretty big difference in performance.
