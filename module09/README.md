@@ -59,13 +59,13 @@ Insertion sort is efficient for small arrays, while merge sort is efficient for 
 
 A deque stores its elements in multiple chunks of contiguous memory, usually in a structure that consists of a series of fixed-size arrays. Each array, called a "block," contains a certain number of elements, and the blocks are linked together to form the deque. When elements are added or removed from the front or back of the deque, the blocks may need to be rearranged to maintain the contiguous storage and efficient access times. This is different from a vector, which stores its elements in a single contiguous block of memory.
 
- ![img2](img/block1.png)
+ ![img2](ex02/img/block1.png)
 
 The fact that the elements are stored in multiple chunks of contiguous memory allows for better memory allocation and usage. Additionally, because the elements are not stored in a single contiguous block, the deque can grow dynamically without having to move all the existing elements to a new memory location.
 
  The deque container is essentially a dynamically allocated array of pointers, where each pointer points to a fixed-size array (block) that holds the elements.[array of pointers to n-byte arrays] This allows for efficient insertion and deletion of elements at both the front and back of the deque, since only the pointers to the affected blocks need to be updated, and not the entire contents of the container.
 
- ![My Image](img/block2.png)
+ ![My Image](ex02/img/block2.png)
 
 suppose we have a block of size four with three elements
 what will happened if we add the fourth element
