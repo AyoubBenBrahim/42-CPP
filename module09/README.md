@@ -94,29 +94,40 @@ Because of this process, accessing an element in a deque may take slightly longe
 
 
  ==
-
+```
  vector is the type of sequence that should be used by default, list should be used when there are frequent insertions and deletions from the middle of the sequence, deque is the data structure of choice when most insertions and deletions take place at the beginning or at the end of the sequence.
 
  Effective STL - by Scott Meyers 2
+```
 
+```
+Contiguous-memory containers [also known as array-based containers] store their elements in one or more (dynamically allocated) chunks of memory,
+each chunk holding more than one container element. If a new element is inserted or an existing element is erased,
+other elements in the same memory chunk have to be shifted up or down to make room for the new element or to fill the space formerly occupied by the erased element. This kind of movement affects both performance (see Items 5 and 14) and exception safety (as we'll soon see). 
+The standard contiguous-memory containers are vector, string, and deque. The nonstandard rope is also a contiguous-memory container.
 
- Contiguous-memory containers [also known as array-based containers] store their elements in one or more (dynamically allocated) chunks of memory, each chunk holding more than one container element. If a new element is inserted or an existing element is erased, other elements in the same memory chunk have to be shifted up or down to make room for the new element or to fill the space formerly occupied by the erased element. This kind of movement affects both performance (see Items 5 and 14) and exception safety (as we'll soon see). The standard contiguous-memory containers are vector, string, and deque. The nonstandard rope is also a contiguous-memory container.
-
- Node-based containers store only a single element per chunk of (dynamically allocated) memory. Insertion or erasure of a container element affects only pointers to nodes, not the contents of the nodes themselves, so element values need not be moved when something is inserted or erased.
+Node-based containers store only a single element per chunk of (dynamically allocated) memory. 
+Insertion or erasure of a container element affects only pointers to nodes, not the contents of the nodes themselves,
+so element values need not be moved when something is inserted or erased.
 
  Effective STL - by Scott Meyers 2
+```
 
+```
 repeated single-element insertions VS single range insertion
 
- when you try to insert an element into a vector whose memory is full, the vector allocates new memory with more capacity, copies its elements from the old memory to the new memory, destroys the elements in the old memory, and deallocates the old memory. Then it adds the element that is being inserted. 
+when you try to insert an element into a vector whose memory is full, the vector allocates new memory with more capacity, 
+copies its elements from the old memory to the new memory, destroys the elements in the old memory, and deallocates the old memory. 
+Then it adds the element that is being inserted. 
 
- most vector implementations double their capacity each time they run out of memory,
- so inserting 1000 elements one at a time can result in 10 new allocations (including their incumbent copying of elements). In contrast (and. by now, predictably), a range insertion can figure out how much new memory it needs before it starts inserting things (assuming it is given forward iterators), so it need not reallocate a vector's underlying memory more than once. 
+most vector implementations double their capacity each time they run out of memory,
+so inserting 1000 elements one at a time can result in 10 new allocations (including their incumbent copying of elements).
+In contrast (and. by now, predictably), a range insertion can figure out how much new memory it needs before it starts inserting things (assuming it is given forward iterators), so it need not reallocate a vector's underlying memory more than once. 
 
 range insertions into associative containers may indeed be more efficient than repeated single-element insertions
 
  Effective STL - by Scott Meyers 16
-
+```
 
 Time to process a range of 14 elements with std::vector: 0.64286 us
 Time to process a range of 14 elements with std::deque : 0.78571 us
@@ -127,7 +138,6 @@ The difference in timing between processing a range of 14 elements with std::vec
 std::vector stores its elements in contiguous memory, which means that accessing elements in a std::vector is generally faster than accessing elements in a std::deque, especially for large ranges of elements. This is because accessing elements in contiguous memory involves fewer memory lookups and cache misses.
 
 On the other hand, std::deque stores its elements in chunks of memory called "blocks", and each block is allocated separately. This means that accessing elements in a std::deque requires more memory lookups and cache misses than accessing elements in a std::vector, which can lead to slower processing times for small ranges of elements.
-
 
 
 The difference in timing between processing a range of 14 elements with std::vector and std::deque may be due to a combination of factors, including:
@@ -159,10 +169,8 @@ https://youtu.be/247cXLkYt2M
 C++ cache locality and branch predictability
 https://www.youtube.com/watch?v=EmzdmqUWq3o
 
-
 14:30 data locality, nearby data is likely to be accessed soon
 https://youtu.be/LzsiFYVMqi8
-
 
 ===
 
@@ -196,13 +204,13 @@ $14 = 2
 
 The main difference between a deque and a vector is in their performance characteristics for certain operations.
 
-#####Access:
+##### Access:
 
 * Both deque and vector provide constant-time access to elements at the beginning or end of the container.
 * Vector provides faster access to elements in the middle of the container due to its contiguous memory layout.
 * Accessing elements in the middle of a deque has a time complexity of O(n) since it requires iterating over the elements between the beginning or end of the deque and the target element.
 
-#####Inserting or Removing:
+##### Inserting or Removing:
 
 * Both deque and vector allow for efficient insertion and removal at the end of the container.
 * Inserting or removing elements in the middle of a vector can be expensive since it requires shifting all subsequent elements to maintain the vector's structure. The time complexity of this operation is O(n).
