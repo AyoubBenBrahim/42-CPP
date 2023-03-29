@@ -130,6 +130,7 @@ range insertions into associative containers may indeed be more efficient than r
 ```
 
 Time to process a range of 14 elements with std::vector: 0.64286 us
+
 Time to process a range of 14 elements with std::deque : 0.78571 us
 
 
