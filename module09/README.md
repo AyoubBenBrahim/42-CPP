@@ -196,8 +196,9 @@ So, to summarize, a deque has constant time complexity for inserting or removing
 
 
 ```
-// (gdb) p &this->veq_sequence
-// $2 = (std::vector<long, std::allocator<long> > *) 0x7ffd4d040370
+
+compile with -g
+
 // (gdb) p &veq_sequence
 // $3 = (std::vector<long, std::allocator<long> > *) 0x7ffd4d040370
 
