@@ -97,7 +97,8 @@ Because of this process, accessing an element in a deque may take slightly longe
 ```
  vector is the type of sequence that should be used by default, 
  list should be used when there are frequent insertions and deletions from the middle of the sequence, 
- deque is the data structure of choice when most insertions and deletions take place at the beginning or at the end of the sequence.
+ deque is the data structure of choice when most insertions and deletions 
+ take place at the beginning or at the end of the sequence.
 
  Effective STL - by Scott Meyers 2
 ```
@@ -121,8 +122,10 @@ so element values need not be moved when something is inserted or erased.
  Effective STL - by Scott Meyers 2
 ```
 
+### repeated single-element insertions VS single range insertion
+
 ```
-repeated single-element insertions VS single range insertion
+
 
 when you try to insert an element into a vector whose memory is full,
 the vector allocates new memory with more capacity, 
@@ -131,7 +134,8 @@ and deallocates the old memory.
 Then it adds the element that is being inserted. 
 
 most vector implementations double their capacity each time they run out of memory,
-so inserting 1000 elements one at a time can result in 10 new allocations (including their incumbent copying of elements).
+so inserting 1000 elements one at a time can result 
+in 10 new allocations (including their incumbent copying of elements).
 In contrast (and. by now, predictably), a range insertion can figure out how much new memory
 it needs before it starts inserting things (assuming it is given forward iterators), 
 so it need not reallocate a vector's underlying memory more than once. 
