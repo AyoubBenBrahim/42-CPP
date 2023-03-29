@@ -1,10 +1,25 @@
 
+### ex00 RPN
+
+std::map::lower_bound uses binary search to find the first element in the sorted map that is not less than the specified key. The function returns an iterator to this element, which can be used to access the element's value.
+
+If the key is found in the map, std::map::lower_bound will return an iterator to the element with the specified key. If the key is not found in the map, std::map::lower_bound will return an iterator to the first element that is not less than the specified key.
+
+Note that std::map::lower_bound returns an iterator to an element in the map, not a reference or pointer to the element's value. To access the value of the element, you can use the ->second or (*it).
+
+
+std::map is a sorted associative container, which means that its elements are always sorted in ascending order by their keys. Therefore, std::map::lower_bound uses binary search to find the first element in the sorted map with a key that is not less than the specified key.
+
+When you insert elements into a std::map, they are automatically sorted by their keys using a comparison function (by default, std::less). This ensures that the order of the elements is always maintained, and allows for efficient searching and retrieval of elements using operations such as std::map::lower_bound.
+
+So, to clarify, std::map::lower_bound uses binary search to find the first element in the sorted map that is not less than the specified key,
+
 
 ### ex01 RPN
 
 
 
-```
+```c
 #include<stdio.h>
 
 int main()
@@ -23,7 +38,7 @@ mov move add
 
 ```
 (gdb) disass main
-=> 0x0000561dcb9ad129 <+4>:	    movl   $0x4,-0x4(%rbp)
+=> 0x0000561dcb9ad129 <+4>:	movl   $0x4,-0x4(%rbp)
    0x0000561dcb9ad130 <+11>:	movl   $0x5,-0x8(%rbp)
    0x0000561dcb9ad137 <+18>:	mov    -0x4(%rbp),%edx
    0x0000561dcb9ad13a <+21>:	mov    -0x8(%rbp),%eax
@@ -38,7 +53,7 @@ Insertion sort is efficient for small arrays, while merge sort is efficient for 
 
  u can think of deque as a circular buffer/array
  
- ![img1](img/circular.png)
+ ![img1](ex02/img/circular.png)
  
  https://www.quora.com/What-is-a-possible-implementation-for-std-deque
 
