@@ -170,7 +170,7 @@ void Conversion::intergerHandler()
 
 void Conversion::floatHandler()
 {
-	this->floatHolder = std::stod(this->input);
+	this->floatHolder = std::stod(this->input); // stod is cpp11 not 98, just noticed
 
 	this->intHolder = static_cast<long>(this->floatHolder);
 	this->charHolder = static_cast<char>(this->floatHolder);
